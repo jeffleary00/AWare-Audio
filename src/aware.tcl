@@ -361,7 +361,7 @@ proc locate_awarex {} {
 #       path to awarex, or null if not found
     
     set searchpaths [pwd]
-    lappend searchpaths /usr/bin /usr/local/bin/ /bin
+    lappend searchpaths ./ /usr/bin /usr/local/bin/ /bin
     if {[info exists starkit::topdir]} {
         lappend searchpaths $starkit::topdir
         lappend searchpaths [file join $starkit::topdir lib]
@@ -394,9 +394,19 @@ proc init_awarex {} {
         tk_messageBox -type ok -message "Cannot find awarex executable. Please re-install AWare Audio"
         exit
     }
-    if ([regexp -nocase {tcl} [file extension $location]]) {
+    # escape any spaces in the awarex path, as these will cause errors on most unix/mac systems
+    if {[tk windowingsystem] ne "win32"} {
+        set location [regsub -all {\s+} $location " "]
+        set location [regsub {\s+$} $location ""]
+        set location [regsub -all { } $location "\\ "]
+    }
+
+    # if awarex is a tcl script and not an executable, launch with another tclsh interpreter.
+    # this is sketchy. shouldn't happen, but...
+    if {[regexp -nocase {tcl} [file extension $location]]} {
 	    set location "tclsh $location"
     }
+
     dict set ::awarex location $location
     if {[catch {open "| $location" r+} pipe]} {
         tk_messageBox -type ok -message $pipe
@@ -410,6 +420,8 @@ proc init_awarex {} {
 	puts $pipe "progress on"
 	flush $pipe
 }
+
+
 
 
 proc open_new_session {} {
