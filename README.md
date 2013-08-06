@@ -39,7 +39,7 @@ AWare Audio extracts audio tracks from Yamaha AW audio workstation backup files.
 
         Change permissions on "aware" and "awarex" programs, only if necessary.
           
-          $> chmod 750 /usr/local/bin/aware*
+          $> chmod 755 /usr/local/bin/aware*
           
 
   SOURCE CODE:
