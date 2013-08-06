@@ -21,6 +21,7 @@ higher. Additionally, pre-compiled binaries are available for several systems, i
 
 3. INSTALLATION
 
+
   PRE-COMPILED BINARIES:
     Windows:
         There is no installation program to run. Simply unzip the file and place the folder anywhere you want, on your
@@ -32,11 +33,13 @@ higher. Additionally, pre-compiled binaries are available for several systems, i
         Copy "aware" and "awarex" to a place where your binaries are typically found (/usr/local/bin)
         
           $> cp ./aware* /usr/local/bin
-          
+
+
         Launch AWare Audio.
         
           $> aware
-          
+
+
         Change permissions on "aware" and "awarex" programs, only if necessary.
           
           $> chmod 750 /usr/local/bin/aware*
