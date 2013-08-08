@@ -51,7 +51,7 @@ package require Itcl
 ## GLOBAL SETUP ##
 array set ::Properties [list \
     product_name        "AWAREX" \
-    product_version     "3.0.1" \
+    product_version     "3.0.2" \
     product_author      "Jeff Leary" \
     product_date        "2012" \
     product_description "AWare Audio Extractor. Extracts audio tracks from backup disks created by Yamaha AW Professional Audio Workstations." \
@@ -62,14 +62,29 @@ array set ::Properties [list \
     vendor_support      "sillymonkeysoftware@gmail.com" \
 ]
 
-# source additional files
-set ::sourcedir [pwd]
+# find, and source, additional tcl files
+set ::sourcedir [list ./ [pwd]]
 if {[info exists starkit::topdir]} {
-    set ::sourcedir [file join $starkit::topdir lib]
+    lappend ::sourcedir [file join $starkit::topdir lib]
 }
-foreach srcfile [list awnamespace.tcl class.awfile.tcl class.awsongatom.tcl class.awsong.tcl class.awtrack.tcl class.awregion.tcl class.awcontroller.tcl class.awexporter.tcl] {
-    source [file join $::sourcedir $srcfile]
+foreach dir $::sourcedir {
+    set found 0
+
+    foreach srcfile [list awnamespace.tcl class.awfile.tcl class.awsongatom.tcl class.awsong.tcl class.awtrack.tcl class.awregion.tcl class.awcontroller.tcl class.awexporter.tcl] {
+        set fname [file join $dir $srcfile]
+        set fname [regsub -all { } $fname "\\ "]
+        if {[file exists $fname]} {
+            source $fname
+            set found 1
+        }
+    }
+    
+    if {$found} {
+        set ::sourcedir $dir
+        break
+    }
 }
+
 
 set ::debug 0
 set ::tmpdir [pwd]

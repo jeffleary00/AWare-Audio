@@ -360,8 +360,7 @@ proc locate_awarex {} {
 #   returns 
 #       path to awarex, or null if not found
     
-    set searchpaths ./
-    lappend searchpaths [pwd] /usr/bin /usr/local/bin/ /bin
+    set searchpaths [list ./ [pwd] /usr/bin /usr/local/bin/ /bin]
     if {[info exists starkit::topdir]} {
         lappend searchpaths $starkit::topdir
         lappend searchpaths [file join $starkit::topdir lib]
@@ -402,7 +401,7 @@ proc init_awarex {} {
     }
 
     # if awarex is a tcl script and not an executable, launch with another tclsh interpreter.
-    # this is sketchy. shouldn't happen, but...
+    # this is sketchy.
     if {[regexp -nocase {tcl} [file extension $location]]} {
         set location "tclsh $location"
     }
