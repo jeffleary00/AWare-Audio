@@ -69,7 +69,7 @@ if {[info exists starkit::topdir]} {
 }
 foreach dir $::sourcedir {
     set found 0
-    set dir [regsub -all { } $fname "\\ "]
+    set dir [regsub -all { } $dir "\\ "]
 
     foreach srcfile [list awnamespace.tcl class.awfile.tcl class.awsongatom.tcl class.awsong.tcl class.awtrack.tcl class.awregion.tcl class.awcontroller.tcl class.awexporter.tcl] {
         if {[file exists [file join $dir $srcfile]]} {
