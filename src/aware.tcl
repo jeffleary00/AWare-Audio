@@ -70,12 +70,12 @@ proc init_variables {} {
    
     set ::product [dict create \
         name        {AWare Audio} \
-        version     3.0 \
+        version     3.0.1 \
         vendor      {SillyMonkey Software} \
         author      {Jeffrey Leary} \
         url         {www.sillymonkeysoftware.com} \
         support     {sillymonkeysoftware@gmail.com} \
-        date        {2012} \
+        date        {2013} \
         description {Extracts audio tracks from backup disks created by Yamaha AW Professional Audio Workstations.} \
         disclaimer  {SillyMonkey Software is not affiliated with Yamaha in any way. Yamaha does not endorse, acknowledge, approve, or support this software. AW4416, AW2816, AW16G, AW2400, and AW1600 are all registered trademarks of the Yamaha Corporation.} \
     ]
@@ -352,7 +352,7 @@ proc request_disk {index} {
 proc locate_awarex {} {
 #
 # Find the awarex executable.
-# Look in our starting dir, and all our $path locations.
+# Look in our starting dir, and all other reasonable path locations.
 #
 #   parameters
 #       none
@@ -360,18 +360,40 @@ proc locate_awarex {} {
 #   returns 
 #       path to awarex, or null if not found
     
-    set searchpaths [list ./ [pwd] /usr/bin /usr/local/bin/ /bin]
+    set searchpaths [list ./ [pwd] [file dirname [info script]]]
+    
+    # add starkit dirs if we are running in a starkit
     if {[info exists starkit::topdir]} {
         lappend searchpaths $starkit::topdir
         lappend searchpaths [file join $starkit::topdir lib]
     }
+
+    # add standard *nix bin directories on *nix systems
+    if {[tk windowingsystem] ne "win32"} {
+        lappend searchpaths [list /usr/bin /usr/local/bin/ /bin]
+    }
+
+    # iterate through directories and look for some form of awarex
     foreach name [list awarex awarex.exe awarex.tcl] {       
         foreach path $searchpaths {
-            if {[file exists [file join $path $name]]} {
-                return [file join $path $name]
+            set fname [file join $path $name]
+
+            # clean the paths depending on which OS
+            if {[tk windowingsystem] ne "win32"} {
+                set fname [file nativename [file normalize $fname]]
+                set fname [regsub -all { } $fname "\\ "]
+            } else {
+                set fname [file nativename [file normalize $fname]]
+                set fname [file attribute $fname -shortname]
+            }
+
+            if {[file exists $fname]} {
+                # add additional quotes to improve cross-platform compatibility
+                return "\"$fname\""
             }
         }
     }
+
     return ""
 }
 
@@ -392,12 +414,6 @@ proc init_awarex {} {
     if {$location == ""} {
         tk_messageBox -type ok -message "Cannot find awarex executable. Please re-install AWare Audio"
         exit
-    }
-    
-    # escape any spaces in the awarex path, as these will cause errors on most unix/mac systems
-    if {[tk windowingsystem] ne "win32"} {
-        set location [regsub {\s+$} $location ""]
-        set location [regsub -all { } $location "\\ "]
     }
 
     # if awarex is a tcl script and not an executable, launch with another tclsh interpreter.
