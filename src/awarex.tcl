@@ -73,9 +73,9 @@ foreach dir $::sourcedir {
     set found 0
     set dir [file nativename $dir]
 
-    if {! [regexp -nocase "win" $tcl_platform(os)]} {
-        set dir [regsub -all { } $dir "\\ "]
-    }
+    # if {! [regexp -nocase "win" $tcl_platform(os)]} {
+    #    set dir [regsub -all { } $dir "\\ "]
+    # }
 
     foreach srcfile [list awnamespace.tcl class.awfile.tcl class.awsongatom.tcl class.awsong.tcl class.awtrack.tcl class.awregion.tcl class.awcontroller.tcl class.awexporter.tcl] {
         set fname [file nativename [file join $dir $srcfile]]

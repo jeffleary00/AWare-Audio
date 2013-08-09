@@ -370,7 +370,7 @@ proc locate_awarex {} {
 
     # add standard *nix bin directories on *nix systems
     if {[tk windowingsystem] ne "win32"} {
-        lappend searchpaths [list /usr/bin /usr/local/bin/ /bin]
+        lappend searchpaths /usr/bin /usr/local/bin/ /bin
     }
 
     # iterate through directories and look for some form of awarex
@@ -379,15 +379,13 @@ proc locate_awarex {} {
             set fname [file join $path $name]
 
             # clean the paths depending on which OS
-            if {[tk windowingsystem] ne "win32"} {
-                set fname [file nativename [file normalize $fname]]
-                set fname [regsub -all { } $fname "\\ "]
-            } else {
-                set fname [file nativename [file normalize $fname]]
-                set fname [file attribute $fname -shortname]
-            }
+            set fname [file nativename [file normalize $fname]]
+            
+            # if {[tk windowingsystem] eq "win32"} {
+            #    set fname [file attribute $fname -shortname]
+            # }
 
-            if {[file exists $fname]} {
+            if {[file exists "$fname"]} {
                 # add additional quotes to improve cross-platform compatibility
                 return "\"$fname\""
             }
