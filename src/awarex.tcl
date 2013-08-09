@@ -55,7 +55,7 @@ array set ::Properties [list \
     product_author      "Jeff Leary" \
     product_date        "2012" \
     product_description "AWare Audio Extractor. Extracts audio tracks from backup disks created by Yamaha AW Professional Audio Workstations." \
-    product_copyright   "Copyright 2007-2012 Jeffrey Leary. All rights reserved. Released under BSD License. See full license details included with this software." \
+    product_copyright   "Copyright 2007-2013 Jeffrey Leary. All rights reserved. Released under BSD License. See full license details included with this software." \
     product_disclaimer  "SillyMonkey Software is not affiliated with Yamaha in any way. Yamaha does not endorse, acknowledge, approve, or support this software. AW4416, AW2816, AW16G, AW2400, and AW1600 are all registered trademarks of the Yamaha Corporation." \
     vendor_name         "SillyMonkey Software" \
     vendor_url          "www.sillymonkeysoftware.com" \
@@ -78,7 +78,6 @@ foreach dir $::sourcedir {
     }
 
     foreach srcfile [list awnamespace.tcl class.awfile.tcl class.awsongatom.tcl class.awsong.tcl class.awtrack.tcl class.awregion.tcl class.awcontroller.tcl class.awexporter.tcl] {
-        
         set fname [file nativename [file join $dir $srcfile]]
         if {[file exists $fname]} {
             source "$fname"
