@@ -361,6 +361,10 @@ proc locate_awarex {} {
 #       path to awarex, or null if not found
     
     set searchpaths [list ./ [pwd] /usr/bin /usr/local/bin/ /bin]
+    
+    # specifically for mac osx using bundled Wish app
+    lappend searchpaths [file dirname [info script]]
+    
     if {[info exists starkit::topdir]} {
         lappend searchpaths $starkit::topdir
         lappend searchpaths [file join $starkit::topdir lib]
