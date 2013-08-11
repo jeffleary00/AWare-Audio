@@ -413,6 +413,12 @@ proc init_awarex {} {
         tk_messageBox -type ok -message "Cannot find awarex executable. Please re-install AWare Audio"
         exit
     }
+    
+    # escape any spaces in the awarex path, as these will cause errors on most unix/mac systems
+    if {[tk windowingsystem] ne "win32"} {
+        set location [regsub {\s+$} $location ""]
+        set location [regsub -all { } $location "\\ "]
+    }
 
     # if awarex is a tcl script and not an executable, launch with another tclsh interpreter.
     # this is sketchy.
