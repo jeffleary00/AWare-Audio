@@ -377,10 +377,10 @@ proc locate_awarex {} {
     foreach name [list awarex awarex.exe awarex.tcl] {       
         foreach path $searchpaths {
 
-            set fname [file nativename [file normalize [file join $path $name]]]
+            set fname [file normalize [file join $path $name]]
             if {[file exists "$fname"]} {
                 # add additional quotes to improve cross-platform compatibility
-                return "$fname"
+                return "\"$fname\""
             }
         }
     }

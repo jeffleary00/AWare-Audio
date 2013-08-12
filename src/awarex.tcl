@@ -34,15 +34,6 @@
 # policies, either expressed or implied, of Jeffrey Leary.
 # ############################################################################
 
-# CHANGE HISTORY
-#
-#   Sep-2012    3.0     --Jeff
-#               Converted the old C program to this new Tcl version.
-#               This will be (hopefully) better for multiple OS', and 32-bit
-#               and 64-bit platforms.
-#
-# ############################################################################
-
 
 package require Tcl 8.4
 package require Itcl
@@ -73,7 +64,7 @@ foreach dir $::sourcedir {
     set found 0
 
     foreach srcfile [list awnamespace.tcl class.awfile.tcl class.awsongatom.tcl class.awsong.tcl class.awtrack.tcl class.awregion.tcl class.awcontroller.tcl class.awexporter.tcl] {
-        set fname [file nativename [file join $dir $srcfile]]
+        set fname [file normalize [file join $dir $srcfile]]
         if {[file exists $fname]} {
             source "$fname"
             set found 1
