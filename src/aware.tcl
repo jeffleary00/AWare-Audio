@@ -380,7 +380,7 @@ proc locate_awarex {} {
             set fname [file nativename [file normalize [file join $path $name]]]
             if {[file exists "$fname"]} {
                 # add additional quotes to improve cross-platform compatibility
-                return "\"$fname\""
+                return "$fname"
             }
         }
     }
