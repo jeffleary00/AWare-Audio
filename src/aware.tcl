@@ -29,9 +29,9 @@
 # policies, either expressed or implied, of Jeffrey Leary.
 # ############################################################################
 
+
 package require Tcl 8.5
 package require Tk 8.5
-
 
 
 proc main {} {
@@ -70,7 +70,7 @@ proc init_variables {} {
    
     set ::product [dict create \
         name        {AWare Audio} \
-        version     3.0.1 \
+        version     3.0.2 \
         vendor      {SillyMonkey Software} \
         author      {Jeffrey Leary} \
         url         {www.sillymonkeysoftware.com} \
@@ -376,15 +376,8 @@ proc locate_awarex {} {
     # iterate through directories and look for some form of awarex
     foreach name [list awarex awarex.exe awarex.tcl] {       
         foreach path $searchpaths {
-            set fname [file join $path $name]
 
-            # clean the paths depending on which OS
-            set fname [file nativename [file normalize $fname]]
-            
-            # if {[tk windowingsystem] eq "win32"} {
-            #    set fname [file attribute $fname -shortname]
-            # }
-
+            set fname [file nativename [file normalize [file join $path $name]]]
             if {[file exists "$fname"]} {
                 # add additional quotes to improve cross-platform compatibility
                 return "\"$fname\""
@@ -412,12 +405,6 @@ proc init_awarex {} {
     if {$location == ""} {
         tk_messageBox -type ok -message "Cannot find awarex executable. Please re-install AWare Audio"
         exit
-    }
-    
-    # escape any spaces in the awarex path, as these will cause errors on most unix/mac systems
-    if {[tk windowingsystem] ne "win32"} {
-        set location [regsub {\s+$} $location ""]
-        set location [regsub -all { } $location "\\ "]
     }
 
     # if awarex is a tcl script and not an executable, launch with another tclsh interpreter.
