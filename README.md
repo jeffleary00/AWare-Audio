@@ -14,9 +14,9 @@ AWare Audio extracts audio tracks from Yamaha AW audio workstation backup files.
     Aware Audio is written entirely in Tcl/Tk, and will run on Win32, MacOSX, Linux, and BSD systems
     with the following interpreter and libraries installed:
     
-    Tcl 8.5
-    Tk 8.5
-    Itcl (Incr-Tcl, the Tcl Object Library)
+    - Tcl 8.5
+    - Tk 8.5
+    - Itcl (Incr-Tcl, the Tcl Object Library)
 
     For Windows and Mac OSX users, simply download and install the ActiveTcl package from Activestate
     (activestate.com), as it contains all three required packages.
@@ -26,8 +26,8 @@ AWare Audio extracts audio tracks from Yamaha AW audio workstation backup files.
 
 3. INSTALLATION
     
-    a. Download the ZIP archive of this repository.
-    b. Unzip the archive.
+    - Download the ZIP archive of this repository.
+    - Unzip the archive.
     
     
 4. RUNNING AWARE AUDIO
@@ -36,7 +36,9 @@ AWare Audio extracts audio tracks from Yamaha AW audio workstation backup files.
         Double-click on the aware.tcl script in the "src" folder.
 
     Linux and Mac OSX:
+        
         $> cd <location where zip was extracted>/src
+        
         $> tclsh ./aware.tcl
         
     
